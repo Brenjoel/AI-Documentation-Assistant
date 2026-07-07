@@ -8,6 +8,7 @@ from langchain.messages import ToolMessage
 from langchain.tools import tool
 from langchain_pinecone import PineconeVectorStore
 from langchain_ollama import OllamaEmbeddings
+from langchain_chroma import Chroma
 
 load_dotenv()
 
@@ -20,8 +21,8 @@ ollama_model = 'qwen3:8b'
 embeddings = OllamaEmbeddings(model = ollama_embeddings_model)
 
 # Initialize Vectore store
-vectorstore = PineconeVectorStore(index_name=os.environ['INDEX_NAME'],embedding=embeddings)
-
+# vectorstore = PineconeVectorStore(index_name=os.environ['INDEX_NAME'],embedding=embeddings)
+vectorstore = Chroma(persist_directory="chroma_db",embedding_function=embeddings,)
 # Initialize chat model
 model = init_chat_model(model = "qwen/qwen3-32b", model_provider='groq')
 
@@ -34,7 +35,7 @@ def retrieve_context(query: str):
 
     # Serialize documents for model
     serialized = '\n\n'.join(
-        (f"Source: {doc.metadata.get('Source','Unknown')} \n\n Content: {doc.page_content}")
+        (f"Source: {doc.metadata.get('source','Unknown')} \n\n Content: {doc.page_content}")
         for doc in retrieved_docs
     )
 
