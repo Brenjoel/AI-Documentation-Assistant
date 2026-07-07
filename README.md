@@ -11,7 +11,7 @@ The current implementation uses LangChain documentation as its knowledge source,
 ## Demo
 
 
-![AI Documentation Assistant Demo](demo.mp4)
+![AI Documentation Assistant Demo](demo.gif)
 
 The application allows users to ask technical questions about indexed documentation and receive context-grounded answers together with the source pages used during retrieval.
 
